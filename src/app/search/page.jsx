@@ -6,9 +6,11 @@ export const metadata = {
 }
 export default function Home() {
   return (
-    <div className='p-6'>
-      <EquiposBusqueda />
-      <ExportarBusqueda />
+    <div className="mx-4">
+      <ScrollShadow className='container fixed w-auto md:h-full h-[400px] p-5 scroll-smooth justify-center'>
+        <EquiposBusqueda />
+        <ExportarBusqueda />
+      </ScrollShadow>
     </div>
   )
 }

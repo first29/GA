@@ -19,7 +19,7 @@ const EquiposBusqueda = () => {
             return
         }
         try {
-            const res = await axios.get('api/equipos/' + id)
+            const res = await axios('api/equipos/' + id)
             setActivo(res.data)
         } catch (err) {
             form.current.reset();
@@ -29,15 +29,14 @@ const EquiposBusqueda = () => {
     }
     return (
         <div className="">
-            <form className="flex w-full flex-wrap md:flex-nowrap gap-4" ref={form}>
+            <form className="flex w-auto flex-wrap md:flex-nowrap gap-4" ref={form}>
                 <Input name="activo" type="id" label="Nro de Activo" onChange={handlechange} />
-                <Button className="p-6 bg-stone-700" variant='ghost' onClick={handleSubmit}>a</Button>
+                <Button className="p-6 bg-stone-700" variant='ghost' onClick={handleSubmit}>Buscar</Button>
             </form>
-            <br />
             {activo && (
                 activo!="None"?
                 <>
-                    <div className=" flex gap-4  h-1/3 justify-center">
+                    <div className="mt-4 flex gap-4  h-1/3 justify-center">
                         <div className="flex p-8 grid  border border-stone-600 bg-stone-300 w-1/2 ">
                             <p >Fecha de adquisicion: {new Date(activo[0].fechaAdquisicion).toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })}</p>
                             <p >Tipo: {activo[0].tipo}</p>
@@ -67,7 +66,7 @@ const EquiposBusqueda = () => {
                         <p >observacion: {activo[0].observacion}</p>
                         <p >inconveniente: {activo[0].inconveniente}</p>
                     </div>
-                </> : <>No se encontro Activo<br /></>)}
+                </> : <p className="my-6 mx-16">No se encontro Activo</p>)}
         </div>
     )
 }

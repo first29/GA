@@ -1,57 +1,87 @@
 "use client"
-import { Input, Button, ScrollShadow } from "@nextui-org/react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { Input, Button } from "@nextui-org/react"
 import axios from "axios"
+import Filtros from "./filtros"
 import * as XLSX from 'xlsx'
 
-function ExportarBusqueda() {
-    const [fma, setFma] = useState(null);
-    const [fme, setFme] = useState(null);
-    const form = useRef();
+const EquiposBusqueda = () => {
+    const { reset, register, unregister, watch, getValues,control } = useForm({
+        defaultValues: {
+            etiqueta: "a",
+            fma: "a",
+            fme: "a",
+            serie: "a",
+            ticket: "a",
+            usuario: "a"
+        }
+    });
+    const [more, setMore] = useState(false)
     const handleSubmit = async (e) => {
         e.preventDefault()
+        function formatoFechas(fecha) {
+            if (fecha) return new Date(fecha).toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })
+            else return ""
+        }
         try {
-            const res = await axios.get('api/equipos/' + fma + '/' + fme)
-            const data = res.data
-            /* const formattedData = data.map((item) => ({
+            const res = await axios.get('api/equipos/' + getValues("fma") + '/' + getValues("fme") + '/' + getValues("serie") + '/' + getValues("ticket") + '/' + getValues("usuario") + '/' + getValues("etiqueta"))
+            const data = res.data[0]
+            console.log(data)
+           /* const formattedData = data.map((item) => ({
                  ...item,
-                 fecha: new Date(item.fecha),
-             }));*/
-            const workbook = XLSX.utils.book_new();
-            const worksheet = XLSX.utils.json_to_sheet(data);
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
-            const fileName = 'reporte_de_equipos.xlsx';
-            XLSX.writeFile(workbook, fileName);
+                 fechaAdquisicion: formatoFechas(item.fechaAdquisicion),
+                 fecha_ingreso: formatoFechas(item.fecha_ingreso),
+                 fecha_salida: formatoFechas(item.fecha_salida)
+             }));
+            const workbook = XLSX.utils.book_new()
+            const worksheet = XLSX.utils.json_to_sheet(formattedData)
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos')
+            const fileName = 'reporte_de_equipos.xlsx'
+            XLSX.writeFile(workbook, fileName)*/
         } catch (err) {
-            form.current.reset();
-            console.error(err)
+            reset();
+            alert(err)
         }
     }
     const enviarCorreo = async (e) => {
         e.preventDefault()
         try {
-            const res = await axios.post('api/equipos/' + fma + '/' + fme)
+            const res = await axios.post('api/equipos/' + getValues("fma") + '/' + getValues("fme") + '/' + getValues("serie") + '/' + getValues("ticket") + '/' + getValues("usuario") + '/' + getValues("etiqueta"))
             alert("correo enviado exitosamente");
         } catch (err) {
-            form.current.reset();
+            reset();
             console.error(err)
         }
     }
-    const handleChangeFecha = (e) => {
-        if (e.name == "fme") setFme(e.value)
-        if (e.name == "fma") setFma(e.value)
-    };
+    useEffect(() => { console.log(watch()) }, [watch()])
+    useEffect(() => { reset() }, [more])
     return (
-        <div className="grid">
-            <br />
-            <form className="flex" onSubmit={handleSubmit} ref={form}>
-                <Input type="Date" className="p-1" name="fme" onChange={(e) => handleChangeFecha(e.target)}>Fecha Inicio</Input>
-                <Input type="Date" className="p-1" name="fma" onChange={(e) => handleChangeFecha(e.target)}>Fecha Fin</Input>
-                <Button type="submit" className="p-6">Exportar</Button>
+        <div className="mt-40 ">
+            <form className="grid w-full gap-4 justify-center" onSubmit={handleSubmit}>
+                <div className={(!more) ? "flex" : "grid" + " md:flex-nowrap"}>
+                    <div className="flex">
+                        <Input className="mx-4 " name="fme" type="Date"  {...register("fme")} />
+                        <Input className="mx-4" name="fma" type="Date" {...register("fma")} />
+                    </div>
+
+                    <div className="my-2">
+                        {more ? <Filtros setMore={setMore} more={more} control={control} register={register} getValues={getValues}></Filtros> :
+                            <Button className=" w-1/4 mx-auto h-full" variant="ghost" onClick={() => { setMore(!more) }}>Mas Filtros</Button>}
+                    </div>
+                </div>
+
+                <div className="flex w-full mx-auto justify-center">
+                    <Button className="bg-stone-700 border-stone-700 mx-8 basis-2/3" variant='ghost' type="submit">exportar</Button>
+                    <Button className="bg-stone-700 border-stone-700 mx-8 basis-2/3" variant='ghost' onClick={enviarCorreo}>Enviar Correo</Button>
+                </div>
+
             </form>
-            <Button variant="ghost" className="bg-stone-700" onClick={enviarCorreo}>enviar por correo</Button>
-        </div >
+
+            <br />
+
+        </div>
     )
 }
 
-export default ExportarBusqueda
+export default EquiposBusqueda
