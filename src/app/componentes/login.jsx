@@ -21,7 +21,7 @@ export default function Login() {
             const res = await axios.post(`api/auth/login/`, { correo: "rchacon@canvia.com", contraseña: "123456" })
             const { token } = res.data;
             console.log(token)
-            push("/")
+            push("/search")
         } catch (err) {
             alert(err)
         }
