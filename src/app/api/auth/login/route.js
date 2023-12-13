@@ -17,7 +17,7 @@ export async function POST(req, res, next) {
             return Response.json({ error: 'Credenciales inválidas', status: 401 });
         }
 
-        const token = jwt.sign({ usuarioId: usuario[0].id }, 'secreto', { expiresIn: '1h' });
+        const token = jwt.sign({ usuarioId: usuario[0].id }, 'clave', { expiresIn: '1h' });
         const usuarioNombre = usuario[0].nombres;
 
         console.log("Ingreso usuario " + usuarioNombre + " con token: " + token);
@@ -25,7 +25,7 @@ export async function POST(req, res, next) {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
-            maxAge: 1000 * 60 * 60 * 24 * 30,
+            maxAge: 60 * 60 * 60 * 24 * 30,
             path: '/'
         })
         //const cookies = await res.setHeader('Set-Cookie', serialized)
