@@ -60,6 +60,7 @@ const Filtros = ({ register, setMore, more, getValues, control }) => {
             <Controller
                 control={control}
                 name="usuario"
+                
                 defaultValue=""
                 render={({ field }) => (
                     <Select
@@ -69,12 +70,12 @@ const Filtros = ({ register, setMore, more, getValues, control }) => {
                         filterOption={filterOption}
                         onChange={(value) => field.onChange(value)}
                         listHeight={160}
-                        className="h-auto border-stone-300"
+                        className="h-auto bg-stone-300"
                         popupClassName="bg-stone-300"
                         options={userData.usuarios}
                     />
                 )}
-                className="h-auto hover:color-stone-300"
+                className="h-auto hover:color-stone-300 border-stone-700 backdrop-brightness-105"
             />
             <Input
                 className="mx-1 "

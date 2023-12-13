@@ -27,8 +27,7 @@ const EquiposBusqueda = () => {
         try {
             const res = await axios.get('api/equipos/' + getValues("fma") + '/' + getValues("fme") + '/' + getValues("serie") + '/' + getValues("ticket") + '/' + getValues("usuario") + '/' + getValues("etiqueta"))
             const data = res.data[0]
-            console.log(data)
-           /* const formattedData = data.map((item) => ({
+            const formattedData = data.map((item) => ({
                  ...item,
                  fechaAdquisicion: formatoFechas(item.fechaAdquisicion),
                  fecha_ingreso: formatoFechas(item.fecha_ingreso),
@@ -38,7 +37,7 @@ const EquiposBusqueda = () => {
             const worksheet = XLSX.utils.json_to_sheet(formattedData)
             XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos')
             const fileName = 'reporte_de_equipos.xlsx'
-            XLSX.writeFile(workbook, fileName)*/
+            XLSX.writeFile(workbook, fileName)
         } catch (err) {
             reset();
             alert(err)
@@ -48,7 +47,7 @@ const EquiposBusqueda = () => {
         e.preventDefault()
         try {
             const res = await axios.post('api/equipos/' + getValues("fma") + '/' + getValues("fme") + '/' + getValues("serie") + '/' + getValues("ticket") + '/' + getValues("usuario") + '/' + getValues("etiqueta"))
-            alert("correo enviado exitosamente");
+            alert(res.data);
         } catch (err) {
             reset();
             console.error(err)
@@ -57,22 +56,22 @@ const EquiposBusqueda = () => {
     useEffect(() => { console.log(watch()) }, [watch()])
     useEffect(() => { reset() }, [more])
     return (
-        <div className="mt-40 ">
+        <div className="mt-40 border-white">
             <form className="grid w-full gap-4 justify-center" onSubmit={handleSubmit}>
                 <div className={(!more) ? "flex" : "grid" + " md:flex-nowrap"}>
                     <div className="flex">
-                        <Input className="mx-4 " name="fme" type="Date"  {...register("fme")} />
+                        <Input className="mx-4 border-stone-700" name="fme" type="Date"  {...register("fme")} />
                         <Input className="mx-4" name="fma" type="Date" {...register("fma")} />
                     </div>
 
                     <div className="my-2">
                         {more ? <Filtros setMore={setMore} more={more} control={control} register={register} getValues={getValues}></Filtros> :
-                            <Button className=" w-1/4 mx-auto h-full" variant="ghost" onClick={() => { setMore(!more) }}>Mas Filtros</Button>}
+                            <Button className=" w-1/4 mx-auto h-full bg-stone-700 border-stone-700" variant="ghost" onClick={() => { setMore(!more) }}>Mas Filtros</Button>}
                     </div>
                 </div>
 
                 <div className="flex w-full mx-auto justify-center">
-                    <Button className="bg-stone-700 border-stone-700 mx-8 basis-2/3" variant='ghost' type="submit">exportar</Button>
+                    <Button disabled={false} className="bg-stone-700 border-stone-700 mx-8 basis-2/3" variant='ghost' type="submit">exportar</Button>
                     <Button className="bg-stone-700 border-stone-700 mx-8 basis-2/3" variant='ghost' onClick={enviarCorreo}>Enviar Correo</Button>
                 </div>
 
