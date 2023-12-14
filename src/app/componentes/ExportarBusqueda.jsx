@@ -7,17 +7,11 @@ import Filtros from "./filtros"
 import * as XLSX from 'xlsx'
 
 const ExportarBusqueda = () => {
-    const { reset, register, unregister, watch, getValues, control, formState: { errors } } = useForm({
-        defaultValues: {
-            etiqueta: "a",
-            serie: "a",
-            ticket: "a",
-            usuario: "a"
-        }
-    });
+    const { reset, register, setValue, watch, getValues, control, formState: { errors } } = useForm();
     const [more, setMore] = useState(false)
     const handleSubmit = async (e) => {
         e.preventDefault()
+        validar()
         if (!(getValues("fma") && getValues("fme"))) {
             alert("debe seleccionar un rango de fechas")
             return
@@ -47,8 +41,23 @@ const ExportarBusqueda = () => {
             alert(err)
         }
     }
+    function validar() {
+        const param = watch();
+        const result = Object.keys(param).reduce((acc, key) => {
+            acc[key] = param[key] !== undefined ? param[key] : "a";
+            return acc;
+        }, {});
+        // Reasignar los valores al estado del formulario
+        Object.keys(result).forEach((key) => setValue(key, result[key]));
+    
+        console.log(watch());
+    }
+    
+
+
     const enviarCorreo = async (e) => {
         e.preventDefault()
+        validar()
         if (!(getValues("fma") && getValues("fme"))) {
             alert("debe seleccionar un rango de fechas")
             return
@@ -62,11 +71,12 @@ const ExportarBusqueda = () => {
             console.error(err)
         }
     }
+    useEffect(() => { console.log(watch()) }, [watch()])
     useEffect(() => { reset() }, [more])
     return (
-        <div className="my-4 border-white">
-            <h1 className="justify-center my-4 flex flex-wrap md:flex-nowrap" >Busqueda Avanzada</h1>
-            <form className="border grid w-full gap-4 justify-center " onSubmit={handleSubmit}>
+        <div className="mt-6 mb-16">
+            <h1 className=" sm:w-full md:w-2/3 xl:w-2/3 mx-auto justify-center my-4 flex flex-wrap md:flex-nowrap border border-cyan-700 bg-neutral-600" >Busqueda Avanzada</h1>
+            <form className="grid w-full gap-4 justify-center " onSubmit={handleSubmit}>
                 <div className={" md:flex-nowrap " + ((!more) ? "flex" : "grid")}>
                     <div className="flex gap-4 justify-center">
                         <div className="grid w-1/2">

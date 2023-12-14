@@ -30,8 +30,8 @@ const EquiposBusqueda = () => {
     useEffect(()=>{if(activo=="None") setTimeout(setActivo(null), 20000)},[activo])
     return (
         <div className="md:mx-auto">
-            <h1 className="justify-center my-2 flex flex-wrap md:flex-nowrap" >Busqueda por Nro de Activo</h1>
-            <form className="justify-center flex flex-wrap md:flex-nowrap" ref={form}>
+            <h1 className="sm:w-full md:w-2/3 xl:w-2/3 mx-auto justify-center my-4 flex flex-wrap md:flex-nowrap border border-cyan-700 bg-neutral-600" >Busqueda por Nro de Activo</h1>
+            <form className="justify-center flex flex-wrap md:flex-nowrap "  ref={form}>
                 <div>
 
                 </div>
@@ -43,7 +43,7 @@ const EquiposBusqueda = () => {
                 activo != "None" ?
                     <div className="">
                         <div className="mt-4 flex sm:gap-2 h-1/3">
-                            <div className="flex p-8 grid border border-stone-600 bg-stone-300 w-auto mx-auto justify-center">
+                            <div className="flex p-8 grid border border-stone-600 bg-stone-300 w-auto mx-auto ">
                                 <p >Fecha de adquisicion: {new Date(activo[0].fechaAdquisicion).toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })}</p>
                                 <p >Tipo: {activo[0].tipo}</p>
                                 <p >Serie: {activo[0].serie}</p>
@@ -52,7 +52,7 @@ const EquiposBusqueda = () => {
                                 <p >caracteristicas: {activo[0].caracteristicas}</p>
                                 <p >Usuario asignado: {activo[0].usuario_asignado}</p>
                             </div>
-                            <div className="flex p-8 grid  border border-stone-600 bg-stone-300  w-auto mx-auto justify-center ">
+                            <div className="flex p-8 grid  border border-stone-600 bg-stone-300  w-auto mx-auto  ">
                                 <p >Estado: {activo[0].estado}</p>
                                 <p >Depreciacion: {activo[0].DEPRECIACION}</p>
                                 <p >etiqueta: {activo[0].etiqueta}</p>

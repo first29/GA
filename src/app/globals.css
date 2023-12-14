@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background-color: #F4F4F4; /* Reemplaza 'your-color' con el color que desees */
+}

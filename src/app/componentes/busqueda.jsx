@@ -3,17 +3,15 @@ import EquiposBusqueda from "./EquiposBusqueda"
 import ExportarBusqueda from './ExportarBusqueda';
 
 /*
-<ScrollShadow className='container h-screen '>
-</ScrollShadow>
+
+
 */
 
 export default function Busqueda() {
     return (
-        <div className="h-screen">
-
+        <ScrollShadow className='container h-screen '>
             <EquiposBusqueda />
             <ExportarBusqueda />
-
-        </div>
+        </ScrollShadow>
     )
 }

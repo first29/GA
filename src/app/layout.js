@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div className="flex mx-auto w-auto h-auto flex-col md:flex-row md:overflow-hidden ">
+        <div className="flex mx-auto w-auto h-screen md:h-screen flex-col md:flex-row md:overflow-hidden sm:h-auto">
           <div className={login?"hidden":"w-auto flex-none md:w-64"}>
             <SideNav />
           </div>

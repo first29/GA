@@ -39,43 +39,43 @@ const Filtros = ({ register, setMore, more, getValues, control }) => {
             <Input className="mx-1" {...register("serie")} label="Serie" value={serie} onChange={(e) => setSerie(e.target.value)}>Serie </Input>
             <Controller
                 control={control}
-               
+
                 name="ticket"
-                defaultValue=""
                 render={({ field }) => (
                     <Select
+                        clearBg="#F4F4F4"
                         showSearch
+                        allowClear
                         placeholder="Select ticket"
                         optionFilterProp="children"
                         filterOption={filterOption}
                         onChange={(value) => field.onChange(value)}
                         listHeight={160}
-                        className="h-auto border-stone-300  "
+                        className="h-auto rounded-full"
                         popupClassName="bg-stone-300"
                         options={userData.tickets}
                     />
                 )}
-                
             />
             <Controller
                 control={control}
                 name="usuario"
-                
+
                 defaultValue=""
                 render={({ field }) => (
                     <Select
                         showSearch
+                        allowClear
                         placeholder="Select usuario"
                         optionFilterProp="children"
                         filterOption={filterOption}
                         onChange={(value) => field.onChange(value)}
                         listHeight={160}
-                        className="h-auto bg-stone-300"
+                        className="h-auto"
                         popupClassName="bg-stone-300"
                         options={userData.usuarios}
                     />
                 )}
-                className="h-auto hover:color-stone-300 border-stone-700 backdrop-brightness-105"
             />
             <Input
                 className="mx-1 "
