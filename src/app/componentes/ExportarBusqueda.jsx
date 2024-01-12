@@ -7,12 +7,18 @@ import Filtros from "./filtros"
 import * as XLSX from 'xlsx'
 
 const ExportarBusqueda = () => {
-    const { reset, register, setValue, watch, getValues, control, formState: { errors } } = useForm();
+    const { reset, register, setValue, watch, getValues, control, formState: { errors }, handleSubmit } = useForm({
+        defaultValues: {
+            etiqueta: "¿",
+            serie: "¿",
+            ticket: "¿",
+            usuario: "¿"
+        }
+    });
     const [more, setMore] = useState(false)
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const onSubmit = handleSubmit(async (e) => {
         validar()
-        if (!(getValues("fma") && getValues("fme"))) {
+        if (!(watch("fma") && watch("fme"))) {
             alert("debe seleccionar un rango de fechas")
             return
         }
@@ -21,7 +27,7 @@ const ExportarBusqueda = () => {
             else return ""
         }
         try {
-            const res = await axios.get('api/equipos/' + getValues("fma") + '/' + getValues("fme") + '/' + getValues("serie") + '/' + getValues("ticket") + '/' + getValues("usuario") + '/' + getValues("etiqueta"))
+            const res = await axios.get('api/equipos/' + watch("fma") + '/' + watch("fme") + '/' + watch("serie") + '/' + watch("ticket") + '/' + watch("usuario") + '/' + watch("etiqueta"))
             const data = res.data[0]
             const formattedData = data.map((item) => ({
                 ...item,
@@ -37,33 +43,31 @@ const ExportarBusqueda = () => {
             alert("descarga exitosa")
         } catch (err) {
             reset();
-            console.log("a")
             alert(err)
         }
-    }
+    })
     function validar() {
+        debugger
         const param = watch();
         const result = Object.keys(param).reduce((acc, key) => {
-            acc[key] = param[key] !== undefined ? param[key] : "a";
+            debugger
+            acc[key] = (param[key] !== undefined) ? param[key] : "¿";
             return acc;
         }, {});
         // Reasignar los valores al estado del formulario
         Object.keys(result).forEach((key) => setValue(key, result[key]));
-    
+
         console.log(watch());
     }
-    
-
-
     const enviarCorreo = async (e) => {
         e.preventDefault()
         validar()
-        if (!(getValues("fma") && getValues("fme"))) {
+        if (!(watch("fma") && watch("fme"))) {
             alert("debe seleccionar un rango de fechas")
             return
         }
         try {
-            const res = await axios.post('api/equipos/' + getValues("fma") + '/' + getValues("fme") + '/' + getValues("serie") + '/' + getValues("ticket") + '/' + getValues("usuario") + '/' + getValues("etiqueta"))
+            const res = await axios.post('api/equipos/' + watch("fma") + '/' + watch("fme") + '/' + watch("serie") + '/' + watch("ticket") + '/' + watch("usuario") + '/' + watch("etiqueta"))
             alert(res.data);
         } catch (err) {
             reset();
@@ -71,23 +75,24 @@ const ExportarBusqueda = () => {
             console.error(err)
         }
     }
-    useEffect(() => { console.log(watch()) }, [watch()])
     useEffect(() => { reset() }, [more])
     return (
         <div className="mt-6 mb-16">
             <h1 className=" sm:w-full md:w-2/3 xl:w-2/3 mx-auto justify-center my-4 flex flex-wrap md:flex-nowrap border border-cyan-700 bg-neutral-600" >Busqueda Avanzada</h1>
-            <form className="grid w-full gap-4 justify-center " onSubmit={handleSubmit}>
+            <form className="grid w-full gap-4 justify-center " onSubmit={onSubmit}>
                 <div className={" md:flex-nowrap " + ((!more) ? "flex" : "grid")}>
                     <div className="flex gap-4 justify-center">
-                        <div className="grid w-1/2">
-                            <label className="justify-cente ml-4">Fecha de Inicio</label>
+                        <div className="grid w-1/2 mx-4">
+                            <label className="justify-cente ml-4 text-stone-300">Fecha de Inicio</label>
+
                             <Input className="mx-4 border-stone-700" name="fme" type="Date"  {...register("fme", { required: { value: true, message: "Este campo es requerido" } })} />
-                            {errors.fme && <span className="text-red-500">{errors.fme.message}</span>}
+                            {errors.fme && <span className="text-red-500 justify-center ml-4">{errors.fme.message}</span>}
                         </div>
-                        <div className="grid w-1/2">
-                            <label className="justify-center ml-4 ">Fecha de fin</label>
-                            <Input className="my-2 mx-4" name="fma" type="Date" {...register("fma", { required: { value: true, message: "Este campo es requerido" } })} />
-                            {errors.fma && <span className="text-red-500">{errors.fma.message}</span>}
+                        <div className="grid w-1/2 mx-4">
+                            <label className="justify-center ml-4 text-stone-300">Fecha de fin</label>
+
+                            <Input className="border-stone-700 mx-4" name="fma" type="Date" {...register("fma", { required: { value: true, message: "Este campo es requerido" } })} />
+                            {errors.fma && <span className="text-red-500 justify-center ml-4">{errors.fma.message}</span>}
                         </div>
                     </div>
                     <div className="my-2">

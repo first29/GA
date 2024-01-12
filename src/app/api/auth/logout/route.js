@@ -4,12 +4,13 @@ import { serialize } from 'cookie';
 
 export async function GET(req, res) {
     // Intenta obtener el token de las cookies
-    const token = req.cookies.get("myTokenName").value;
+    const token = req.cookies.get("tukicookie").value;
     if(!token) return Response.json({ message: "sin token" }, { status: 401 });
+    debugger
     // Intenta verificar el token con la clave secreta
     try {
         verify(token, "clave");
-        const serialized = serialize('myTokenName', token, {
+        const serialized = serialize('tukicookie', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',

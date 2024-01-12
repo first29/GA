@@ -5,6 +5,7 @@ import { serialize } from 'cookie';
 export async function POST(req, res, next) {
     const { correo, contraseña } = await req.json();
     try {
+        debugger
         const rows = await cnn.query(`SELECT * FROM login WHERE correo=?`, [correo])
 
         if (rows[0].length === 0) {
@@ -12,7 +13,6 @@ export async function POST(req, res, next) {
         }
         const usuario = rows[0];
         const contraseñaValida = contraseña === usuario[0].contraseña;
-
         if (!contraseñaValida) {
             return Response.json({ error: 'Credenciales inválidas', status: 401 });
         }
@@ -21,7 +21,7 @@ export async function POST(req, res, next) {
         const usuarioNombre = usuario[0].nombres;
 
         console.log("Ingreso usuario " + usuarioNombre + " con token: " + token);
-        const serialized = serialize('myTokenName', token, {
+        const serialized = serialize('tukicoockie', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',

@@ -6,8 +6,6 @@ import { Controller } from "react-hook-form";
 
 const Filtros = ({ register, setMore, more, getValues, control }) => {
     const [userData, setUserData] = useState({ usuarios: [], tickets: [] });
-    const [usuario, setUsuario] = useState("");
-    const [ticket, setTicket] = useState("");
     const [serie, setSerie] = useState("");
     const [etiqueta, setEtiqueta] = useState("");
 
@@ -23,6 +21,12 @@ const Filtros = ({ register, setMore, more, getValues, control }) => {
         }
     };
 
+    const handleInputChange = (e, setValue) => {
+        debugger
+        const value = e.target.value.trim();
+        setValue(value === '' ? "¿" : value);
+        console.log(value)
+      };
     const filterOption = (input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
@@ -36,10 +40,9 @@ const Filtros = ({ register, setMore, more, getValues, control }) => {
 
     return (
         <div className="flex gap-2">
-            <Input className="mx-1" {...register("serie")} label="Serie" value={serie} onChange={(e) => setSerie(e.target.value)}>Serie </Input>
+            <Input defaultValue='¿' className="mx-1" {...register("serie")} label="Serie" value={serie === "¿" ? "" : serie}  onChange={(e) => handleInputChange(e, setSerie)}>Serie </Input>
             <Controller
                 control={control}
-
                 name="ticket"
                 render={({ field }) => (
                     <Select
@@ -60,7 +63,6 @@ const Filtros = ({ register, setMore, more, getValues, control }) => {
             <Controller
                 control={control}
                 name="usuario"
-
                 defaultValue=""
                 render={({ field }) => (
                     <Select
@@ -81,8 +83,8 @@ const Filtros = ({ register, setMore, more, getValues, control }) => {
                 className="mx-1 "
                 {...register("etiqueta")}
                 label="Etiqueta"
-                value={etiqueta}
-                onChange={(e) => setEtiqueta(e.target.value)}
+                value={etiqueta=== "¿" ? "" : etiqueta}
+                onChange={(e) => handleInputChange(e, setEtiqueta)}
             >Etiqueta</Input>
 
             <Button className="mx-2 bg-stone-700 text-white h-auto w-2/5" variant="ghost" onClick={boton}>

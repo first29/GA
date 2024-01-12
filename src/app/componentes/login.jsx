@@ -20,7 +20,7 @@ export default function Login() {
             const res = await axios.post(`api/auth/login/`, getValues())
             const { token } = res.data;
             console.log(token)
-            push("/search")
+            push("/")
         } catch (err) {
             alert(err)
         }

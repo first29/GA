@@ -3,7 +3,7 @@ import { jwtVerify } from 'jose';
 
 export async function middleware(request) {
 
-  const jwt = request.cookies.get('myTokenName')
+  const jwt = request.cookies.get('tukicoockie')
   if (!jwt) return NextResponse.redirect(new URL('/login', request.url))
   try {
     const { payload } = await jwtVerify(jwt.value, new TextEncoder().encode('clave'));
