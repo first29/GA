@@ -15,9 +15,9 @@ export default function CrearUsuario() {
   return (
     <form className='grid ml-32'>
       <div className='flex mb-4'>
-        <Input className="mx-4 border-stone-700 w-1/5" name="DNI" label="DNI"></Input>
-        <Input className="mx-4 border-stone-700 w-1/5" name="Nombre" label="Nombre"></Input>
-        <Input className="mx-4 border-stone-700 w-1/5" name="Codigo Empresa" label="Codigo Empresa"></Input>
+        <Input className="mx-4 border-stone-700 w-1/5" name="DNI" label="DNI-Cedula" {...register("DNI", { required: { value: true, message: "Este campo es requerido" } })}/>
+        <Input className="mx-4 border-stone-700 w-1/5" name="Nombre" label="Nombre"/>
+        <Input className="mx-4 border-stone-700 w-1/5" name="Codigo Empresa" label="Codigo Empresa"/>
       </div>
       <Button className="bg-stone-700 w-1/2 ml-32 basis-2/3" variant='ghost' type="submit">CrearUsuario</Button>
     </form>
