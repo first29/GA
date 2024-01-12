@@ -1,5 +1,5 @@
-
 import CrearUsuario from "../componentes/CrearUsuario"
+import { Input, Button } from "@nextui-org/react"
 
 export const metadata = {
     title: 'GA Registro',
