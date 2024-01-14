@@ -50,7 +50,6 @@ const ExportarBusqueda = () => {
         debugger
         const param = watch();
         const result = Object.keys(param).reduce((acc, key) => {
-            debugger
             acc[key] = (param[key] !== undefined) ? param[key] : "¿";
             return acc;
         }, {});
@@ -71,7 +70,6 @@ const ExportarBusqueda = () => {
             alert(res.data);
         } catch (err) {
             reset();
-            console.log("a")
             console.error(err)
         }
     }
