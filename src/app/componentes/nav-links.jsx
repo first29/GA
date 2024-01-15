@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   UserGroupIcon,
@@ -10,10 +10,15 @@ import {
 } from '@heroicons/react/24/solid';
 
 const Submenu = ({ submenuItems, pathname }) => {
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category')
+  const empty= category==null
+  const firstOption=(name)=> name=="Unitary"||name=="Usuario"
+  const path_category = pathname + "?category=" + category
   return (
     <div className={`grid my-1 mx-2 ${pathname === submenuItems.href ? 'bg-sky-100 text-blue-600' : ''}`}>
       {submenuItems.map((submenuItem) => (
-        <Link key={submenuItem.name} href={submenuItem.href} className={`px-2 py-1 text-sm font-medium mt-1 rounded-md bg-gray-50 hover:bg-gray-100 hover:text-blue-600 ${pathname === submenuItem.href ? 'bg-sky-100 text-blue-600' : ''}`}>
+        <Link key={submenuItem.name} href={submenuItem.href} className={`px-2 py-1 text-sm font-medium mt-1 rounded-md bg-gray-50 hover:bg-sky-100 hover:text-blue-600 ${path_category == submenuItem.href ? 'bg-sky-100 text-blue-600' : (empty&&(firstOption(submenuItem.name)&&'bg-sky-100 text-blue-600'))}`}>
           {submenuItem.name}
         </Link>
       ))}
@@ -22,6 +27,7 @@ const Submenu = ({ submenuItems, pathname }) => {
 };
 
 export default function NavLinks() {
+  const pathname = usePathname()
   const links = [
     { name: 'Home', href: '/', icon: HomeIcon },
     {
@@ -40,7 +46,7 @@ export default function NavLinks() {
     }
   ];
   const [submenuOpen, setSubmenuOpen] = useState(null);
-  const pathname = usePathname();
+
 
   return (
     <>
