@@ -22,7 +22,6 @@ const Filtros = ({ register, setMore, more, getValues, control }) => {
     };
 
     const handleInputChange = (e, setValue) => {
-        debugger
         const value = e.target.value.trim();
         setValue(value === '' ? "¿" : value);
         console.log(value)

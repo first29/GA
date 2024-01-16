@@ -12,10 +12,10 @@ export default function CrearUsuario() {
       cod_proyecto: "¿"
     }
   });
-  const onSubmit = handleSubmit(async() => {
+  const onSubmit = handleSubmit(async () => {
     try {
-      const res = await axios.post("api/usuarios/"+watch("dni")+"/"+watch("nombres")+"/"+watch("cod_proyecto"))
-      console.log(res.data)
+      const res = await axios.post("api/usuarios/" + watch("dni") + "/" + watch("nombres") + "/" + watch("cod_proyecto"))
+      alert(res.data)
     } catch (err) {
       reset()
       alert(err)
