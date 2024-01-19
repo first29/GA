@@ -47,7 +47,6 @@ const ExportarBusqueda = () => {
         }
     })
     function validar() {
-        debugger
         const param = watch();
         const result = Object.keys(param).reduce((acc, key) => {
             acc[key] = (param[key] !== undefined) ? param[key] : "¿";
@@ -74,6 +73,7 @@ const ExportarBusqueda = () => {
         }
     }
     useEffect(() => { reset() }, [more])
+    useEffect(() => { console.log(watch()) }, [watch()])
     return (
         <div className="mt-6 mb-16">
             <h1 className=" sm:w-full md:w-2/3 xl:w-2/3 mx-auto justify-center my-4 flex flex-wrap md:flex-nowrap border border-cyan-700 bg-neutral-600" >Busqueda Avanzada</h1>

@@ -22,7 +22,7 @@ export default function CrearUsuario() {
     }
   })
   return (
-    <form className='grid ml-96' onSubmit={onSubmit}>
+    <form className='grid ml-40' onSubmit={onSubmit}>
       <div className='flex mb-4'>
         <Input className="mx-4 border-stone-700 w-1/5" name="dni" label="DNI-Cedula" {...register("dni", { required: { value: true, message: "Este campo es requerido" } })} />
         <Input className="mx-4 border-stone-700 w-1/5" name="nombres" label="Nombres" {...register("nombres", { required: { value: true, message: "Este campo es requerido" } })} />

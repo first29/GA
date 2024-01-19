@@ -33,7 +33,7 @@ export default function CrearUbicacion() {
                 <Input className="mx-4 border-stone-700 w-1/5" name="sub_area" label="Sub Area" {...register("sub_area", { required: { value: true, message: "Este campo es requerido" } })} />
                 <Input className="mx-4 border-stone-700 w-1/5" name="posicion" label="Posicion" {...register("posicion", { required: { value: true, message: "Este campo es requerido" } })} />
             </div>
-            <Button className="border-stone-700 bg-stone-700 w-1/2 ml-96 " variant='ghost' type="submit">Crear Ubicacion</Button>
+            <Button className="border-stone-700 bg-stone-700 w-1/2 mx-64" variant='ghost' type="submit">Crear Ubicacion</Button>
         </form>
     )
 }

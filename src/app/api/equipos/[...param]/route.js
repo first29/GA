@@ -33,8 +33,7 @@ export async function POST(req, { params }) {
     const usuario = validar(params.param[4])
     const etiqueta = validar(params.param[5])
     try {
-        const result = await cnn.query("call buscar(?,?,?,?,?,?)", [fme, fma, serie, ticket, usuario, etiqueta])
-        if (result[0].length === 0) return Response.json({ message: "no se encontraron el activos" }, { status: 404 })
+        const result = await buscar(fme, fma, serie, ticket, usuario, etiqueta)
         await enviarCorreo("rchacon@canvia.com", "prueba de activos", result[0][0], "")
         return Response.json("Correo enviado correctamente")
     } catch (err) {
